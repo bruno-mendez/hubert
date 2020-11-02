@@ -28,17 +28,56 @@ public class ABB<T extends Comparable<T>> {
 		}
 	}
 	
-	public void listarAscendiente() {
-		listarAscendienteRec(raiz);
-		System.out.println();
+	public T buscar(T dato) {
+		return buscarRec(dato, raiz);
+	}
+	
+	private T buscarRec(T dato, NodoABB<T> nodo) {
+		if (nodo == null) {
+			return null;
+		} else if (dato.equals(nodo.getDato())){
+			return dato;
+		} else if(dato.compareTo(nodo.getDato()) < 0) {
+			return buscarRec(dato, nodo.getIzq());
+		} else {
+			return buscarRec(dato, nodo.getDer());
+		}
+	}
+	
+	public int buscarPos(T dato) {
+		int pos = 0;
+		return buscarPosRec(dato, raiz, pos);
+	}
+	
+	private int buscarPosRec(T dato, NodoABB<T> nodo, int pos) {
+		
+		if (nodo == null) {
+			return pos;
+		} else if(dato.compareTo(nodo.getDato()) < 0) {
+			return buscarPosRec(dato, nodo.getIzq(), pos+1);
+		} else if (dato.equals(nodo.getDato())){
+			return pos;
+		} else {
+			return buscarPosRec(dato, nodo.getDer(), pos+1);
+		}
 	}
 
-	private void listarAscendienteRec(NodoABB<T> nodo) {
+	
+	public String listarAscendiente() {
+		String cadena = "";
+		listarAscendienteRec(raiz, cadena);
+//		System.out.println();
+		return cadena;
+	}
+
+	private String listarAscendienteRec(NodoABB<T> nodo, String cadena) {
 		if(nodo != null) {
-			listarAscendienteRec(nodo.getIzq());
-			System.out.println(nodo.getDato());
-			listarAscendienteRec(nodo.getDer());
+			listarAscendienteRec(nodo.getIzq(), cadena);
+			cadena += nodo.getDato() + " | ";
+//			System.out.println(nodo.getDato());
+			listarAscendienteRec(nodo.getDer(),cadena);
 		}
+		return cadena;
 	}
 	
 	public void listarDescendiente() {

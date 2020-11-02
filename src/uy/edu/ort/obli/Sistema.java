@@ -1,5 +1,7 @@
 package uy.edu.ort.obli;
 
+import java.util.ArrayList;
+
 import uy.edu.ort.obli.Retorno.Resultado;
 
 public class Sistema implements ISistema {
@@ -16,6 +18,8 @@ public class Sistema implements ISistema {
 		}
 		
 		usuarios = new ABB <Usuario>();
+		
+		
 		direcciones = new Grafo(maxPuntos, false);
 		
 		return new Retorno(Resultado.OK);
@@ -31,17 +35,50 @@ public class Sistema implements ISistema {
 
 	@Override
 	public Retorno registrarUsuario(String email, String nombre, String password) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+
+		Usuario u = new Usuario (nombre,email,password);
+		if (!u.ValidarEmail()) {
+			return new Retorno(Resultado.ERROR_1);
+		}
+		else {
+			if (usuarios.pertenece(u)){
+				return new Retorno(Resultado.ERROR_2);
+				}
+			else {
+				usuarios.insertar(u);
+				return new Retorno(Resultado.OK);
+			}
+		}
 	}
 
 	@Override
 	public Retorno buscarUsuario(String email) {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		
+		Retorno r = new Retorno (Resultado.OK);
+		
+		Usuario u = new Usuario (email);
+		
+		if(!u.ValidarEmail()) {
+			r = new Retorno (Resultado.ERROR_1);
+		}
+		Usuario buscado = usuarios.buscar(u);
+
+		if(buscado!= null){
+			r.valorString = buscado.toString();
+			r.valorEntero = usuarios.buscarPos(buscado);
+		}else {
+			r = new Retorno (Resultado.ERROR_2);
+		}
+		
+		return r;
 	}
 
 	@Override
 	public Retorno listarUsuarios() {
-		return new Retorno(Resultado.NO_IMPLEMENTADA);
+		
+		Retorno r = new Retorno (Resultado.OK);
+		r.valorString = usuarios.listarAscendiente();
+		return r;
 	}
 
 	@Override
@@ -55,7 +92,7 @@ public class Sistema implements ISistema {
 	}
 
 	@Override
-	public Retorno registrarTramo(double coordXi, double coordYi, double coordXf, double coordYf, int metros) {
+	public Retorno registrarTramo(double coordXi, double coordYi, double coordXf, double coordYf, int metros, int minutos) {
 		return new Retorno(Resultado.NO_IMPLEMENTADA);
 	}
 

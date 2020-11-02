@@ -6,5 +6,6 @@ public class Esquina extends Punto {
 		super(coordX, coordY);
 		// TODO Auto-generated constructor stub
 	}
+	
 
 }

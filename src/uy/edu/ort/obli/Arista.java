@@ -4,6 +4,7 @@ public class Arista {
 	private boolean existe;
 	private int costo;
 
+
 	/*
 	 * private Punto vertice1, vertice2;
 	 */
